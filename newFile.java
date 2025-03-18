@@ -43,6 +43,7 @@ public class newFile {
         }
 
     }
+
     public static int MFT(int[] arr){
         int cnt = 0;
         Map<Integer, Integer> mp = new HashMap<>();
@@ -63,8 +64,7 @@ public class newFile {
             }
         }
         return max;
-    }
-    
+    } 
 
     public static void swap(int arr[],int a,int b){
         int temp = arr[a];
@@ -207,31 +207,24 @@ public class newFile {
             }
         }
     }
-    public static void main(String[] args) {
-        // hashMapMethods();
-        // int arr[] = {1,2,5,1,4,4,6,4,4,4,6,2,2};
-        // System.out.println(MFT(arr));
-        int brr[] = {2,0,2,1,1,0};
-        // sorty(brr);
-        for (int i = 0; i < brr.length; i++) {
-            // System.out.print(brr[i]+" ");
+    
+    public static List<List<Integer>> generate(int row){
+        List<List<Integer>> lst = new ArrayList<>();
+        int ans = 1;
+        for (int x = 1; x <= row; x++) {
+            ArrayList<Integer> temp = new ArrayList<>(); 
+            temp.add(ans);
+            for (int i = 1; i < x; i++) {
+                ans *= x-i;
+                ans /= i;
+                temp.add(ans);
+            }
+            lst.add(temp);
         }
-        // int cr[] = {2,3,5,9} ;
-        // System.out.println(greedy(cr, 2));
-        // int c[] = {-1,1,1,1,2,1};
-        // System.out.println(me(c));
-        // int d[] = {5,1,8};
-        // System.out.println(repairCAR(d,6));
-        // int e[] = {9,9,19,10,9,12,2,12,3,3,11,5,8,4,13,6,2,11,9,19,11,15,9,17,15,12,5,14,12,16,18,16,10,3,8,9,16,20,2,4,16,12,11,14,20,16,2,18,17,20,3,13,16,17,1,1,11,20,20,4};
-        // System.out.println(divideArray(e));
-       
-        // int td[][] = {{5,1,9,11},{2,4,8,10},{13,3,6,7},{15,14,12,16}};
-        // int td[][] = {{1, 2, 3, 4},
-                    //   {5, 6, 7, 8},
-                    //   {9, 10, 11, 12},
-                    //   {13, 14, 15, 16}};
-        // rotateArray(td);
-        // reqArray(td);
-        
+        return lst;
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(generate(5));
     }
 }
