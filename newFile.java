@@ -224,7 +224,109 @@ public class newFile {
         return lst;
     }
     
+   public static void backTrack(int arr[], int i, int val){
+        if(i == arr.length){
+            printArray(arr);
+            return;
+        }
+        arr[i] = val;
+        backTrack(arr, i+1, val+1);
+        arr[i] = arr[i]-2;
+   }
+
+    public static void printArray(int arr[]){
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i]+ " ");
+        }
+        System.out.println();
+    }
+
+    public static void findSubset(String s, String ans, int i){
+        if(i == s.length()){
+            System.out.print(ans+" ");
+            return;
+        }
+
+        findSubset(s, ans+s.charAt(i), i+1);
+
+        findSubset(s, ans, i+1);
+    }
+
+    public static List<List<Integer>> subsets(int[] arr) {
+        List<List<Integer>> lst = new ArrayList<>();
+       
+        return lst;
+    }
+
+    public static void printBoard(char board[][]){
+        System.out.println("-----board----");
+        for (char[] board1 : board) {
+            for (int j = 0; j < board.length; j++) {
+                System.out.print(board1[j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    static int count = 0;
+    public static void nQueens(char board[][], int row){
+        if(row == board.length){
+            printBoard(board);
+            count++;
+            return;
+        }
+        for (int j = 0; j < board.length; j++) {
+            if(isSafe(board, row, j)){
+                board[row][j] = 'Q';
+                nQueens(board, row+1);
+                board[row][j] = '.';
+            }
+        }
+    }
+    
+    public static boolean isSafe(char board[][], int row, int col){
+        //vertical
+        for (int i = row-1; i>=0; i--) {
+            if (board[i][col]=='Q') {
+                return false;
+            }
+        }
+        // left side
+        for (int i=row-1, j=col-1; i>=0 && j>=0 ; i--,j--) {
+            if (board[i][j]=='Q') {
+                return false;
+            }
+        }
+        // right side
+        for (int i=row-1, j=col+1; i>=0 && j<board.length ; i--,j++) {
+            if (board[i][j]=='Q') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+ 
     public static void main(String[] args) {
-        System.out.println(generate(5));
+        // int arr[] = new int[5];
+        // backTrack(arr, 0, 1);
+        // printArray(arr);
+
+        // String s = "abc";
+        // findSubset(s, "", 0);
+
+        // int arr[] = {1,2,3};        ////incomplete
+        // System.out.println(subsets(arr));
+
+        int n = 4;
+        char board[][] = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                board[i][j] = '.';
+            }     
+        }
+        // printBoard(board);
+        nQueens(board, 0);
+        System.out.println(count);
     }
 }
