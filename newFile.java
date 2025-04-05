@@ -93,14 +93,14 @@ public class newFile {
     }
     
     public static boolean canRob(int arr[], int mid, int k){
-        int count=0;
+        int cnt=0;
         for (int i = 0; i < arr.length; i++) {
             if(arr[i]<=mid){
-                count++;
+                cnt++;
                 i++;
             }
         }
-        return count>=k;
+        return cnt>=k;
     }
     
     public static int greedy(int arr[],int k){
@@ -252,12 +252,6 @@ public class newFile {
         findSubset(s, ans, i+1);
     }
 
-    public static List<List<Integer>> subsets(int[] arr) {
-        List<List<Integer>> lst = new ArrayList<>();
-       
-        return lst;
-    }
-
     public static void printBoard(char board[][]){
         System.out.println("-----board----");
         for (char[] board1 : board) {
@@ -283,7 +277,6 @@ public class newFile {
             }
         }
     }
-    
     public static boolean isSafe(char board[][], int row, int col){
         //vertical
         for (int i = row-1; i>=0; i--) {
@@ -369,6 +362,7 @@ public class newFile {
         return u/l;
     }
     
+
     public static boolean isSafee(int sudoku[][], int row, int col, int dig){
         //row
         for (int i = 0; i < 9; i++) {
@@ -428,6 +422,85 @@ public class newFile {
         }
     }
     
+
+    public static boolean characterSudoku(char[][] board, int row, int col) {
+        if(row == 9) return true;
+        int nextRow = row, nextCol = col+1;
+        if(col+1 == 9){
+            nextRow = row+1;
+            nextCol = 0;
+        }
+        if (board[row][col] != '.') {
+            return characterSudoku(board, nextRow, nextCol);
+        }
+        for (char val = '1' ; val <= '9' ; val++) {
+            if(isSafeBoard(board, row, col, val)){
+                board[row][col] = val;
+                if(characterSudoku(board, nextRow, nextCol)){
+                    return true;
+                }
+                board[row][col] = '.';
+                    
+            }
+            
+        }
+        return false;
+    }
+    public static boolean isSafeBoard(char[][] board, int row, int col, int val){
+        // row
+        for (int i = 0; i < board.length; i++) {
+            if(board[i][col] == val) return false;
+        }
+        // col
+        for (int j = 0; j < board.length; j++) {
+            if(board[row][j] == val) return false;
+        }
+        int sr = (row/3)*3;
+        int sc = (col/3)*3;
+        for (int i = sr; i < sr+3; i++) {
+            for (int j = sc; j < sc+3; j++) {
+                if (board[i][j] == val) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    public static List<List<Integer>> intSubset(int nums[]){
+        List<List<Integer>> lst = new ArrayList<>();
+        subset(lst, new ArrayList<>(), nums, 0);
+        return lst;
+    }
+    public static void subset(List<List<Integer>> lst, List<Integer> temp, int nums[], int start){
+        
+        
+        lst.add(new ArrayList<>(temp));
+        for(int i=start; i<nums.length; i++){
+            temp.add(nums[i]);
+            subset(lst, temp, nums, i+1);
+            temp.remove(temp.size()-1);
+        }
+    }
+    
+    public static List<List<Integer>> intSubsetDublicate(int nums[]){
+        List<List<Integer>> lst = new ArrayList<>();
+        Arrays.sort(nums);
+        dublicateSubset(lst, new ArrayList<>(), nums, 0);
+        return lst;
+    }
+    public static void dublicateSubset(List<List<Integer>> lst, List<Integer> temp, int nums[], int start){
+        if (!lst.contains(temp)) {
+            lst.add(new ArrayList<>(temp));
+        }
+        
+        for(int i=start; i<nums.length; i++){
+            temp.add(nums[i]);
+            dublicateSubset(lst, temp, nums, i+1);
+            temp.remove(temp.size()-1);
+        }
+    }
+    
     
     public static void main(String[] args) {
         // int arr[] = new int[5];
@@ -462,17 +535,37 @@ public class newFile {
         // System.out.println(gridWays(2,4));
         // System.out.println(newGridWays(m,n));
 
-        int sudoku[][] = {
-        {5,3,0,0,7,0,0,0,0},
-        {6,0,0,1,9,5,0,0,0},
-        {0,9,8,0,0,0,0,6,0},
-        {8,0,0,0,6,0,0,0,3},
-        {4,0,0,8,0,3,0,0,1},
-        {7,0,0,0,2,0,0,0,6},
-        {0,6,0,0,0,0,2,8,0},
-        {0,0,0,4,1,9,0,0,5},
-        {0,0,0,0,8,0,0,7,9}};
-        System.out.println(solveSudoku(sudoku,0,0));
-        printSudoku(sudoku);
+        // int sudoku[][] = {
+        // {5,3,0,0,7,0,0,0,0},
+        // {6,0,0,1,9,5,0,0,0},
+        // {0,9,8,0,0,0,0,6,0},
+        // {8,0,0,0,6,0,0,0,3},
+        // {4,0,0,8,0,3,0,0,1},
+        // {7,0,0,0,2,0,0,0,6},
+        // {0,6,0,0,0,0,2,8,0},
+        // {0,0,0,4,1,9,0,0,5},
+        // {0,0,0,0,8,0,0,7,9}};
+        // System.out.println(solveSudoku(sudoku,0,0));
+        
+        // char[][] board = {
+        // {'5','3','.','.','7','.','.','.','.'},
+        // {'6','.','.','1','9','5','.','.','.'},
+        // {'.','9','8','.','.','.','.','6','.'},
+        // {'8','.','.','.','6','.','.','.','3'},
+        // {'4','.','.','8','.','3','.','.','1'},
+        // {'7','.','.','.','2','.','.','.','6'},
+        // {'.','6','.','.','.','.','2','8','.'},
+        // {'.','.','.','4','1','9','.','.','5'},
+        // {'.','.','.','.','8','.','.','7','9'}};
+        // System.out.println(characterSudoku(board, 0, 0));
+        // printBoard(board);
+        
+        // int arr[] = {4,4,4,1,4};
+        // System.out.println(intSubset(arr));
+        // System.out.println(intSubsetDublicate(arr));
+
+
+        
+        
     }
 }
