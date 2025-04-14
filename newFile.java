@@ -473,8 +473,6 @@ public class newFile {
         return lst;
     }
     public static void subset(List<List<Integer>> lst, List<Integer> temp, int nums[], int start){
-        
-        
         lst.add(new ArrayList<>(temp));
         for(int i=start; i<nums.length; i++){
             temp.add(nums[i]);
@@ -501,6 +499,65 @@ public class newFile {
         }
     }
     
+    public static boolean containsDuplicate(int[] nums) {
+        HashMap<Integer,Integer> mp = new HashMap<>();
+        for (var i : nums) {
+            if(!mp.containsKey(i)){
+                mp.put(i, 1);
+            }
+            else {
+                mp.put(i,mp.get(i)+1);
+            }
+        }
+        for (int i : mp.values()) {
+            if(i>1) return true;
+        }
+        return false;
+    }
+    
+    public static int maxArea(int[] arr) {
+        int mArea = 0;
+        int l=0, r = arr.length-1;
+        while(l<r){
+            int width = r-l;
+            int height = Math.min(arr[l], arr[r]);
+            mArea = Math.max(width*height,mArea);
+            if (arr[l]<arr[r]) l++;
+            else r--;
+        }
+        return mArea;
+    }
+    
+    public static int countQuadruplets(int[] nums) {
+        int cnt = 0;
+        for (int i = 0; i < nums.length-3; i++) {
+            for (int j = i+1; j < nums.length-2; j++) {
+                for (int k = j+1; k < nums.length-1; k++) {
+                    for (int last = k+1; last < nums.length; last++) {
+                        if(nums[i]+nums[j]+nums[k] == nums[last]){
+                            cnt++;
+                        }
+                    }
+                }
+            }
+        }
+        return cnt;
+    }
+
+    public static int unequalTriplets(int[] nums) {
+        int cnt = 0;
+        for (int i = 0; i < nums.length-2; i++) {
+            for (int j = i+1; j < nums.length-1; j++) {
+                if(nums[i] != nums[j]){
+                    for (int k = j+1; k < nums.length; k++) {
+                        if(nums[i] != nums[k] && nums[j] != nums[k]) cnt++;
+                    }
+                }
+            }
+        } 
+        return cnt;
+    }
+    
     
     public static void main(String[] args) {
         // int arr[] = new int[5];
@@ -515,13 +572,8 @@ public class newFile {
 
         // int n = 4;
         // char board[][] = new char[n][n];
-        // for (int i = 0; i < n; i++) {
-        //     for (int j = 0; j < n; j++) {
-        //         board[i][j] = '.';
-        //     }     
-        // }
-        // // printBoard(board);
         // nQueens(board, 0);
+        // printBoard(board);
         // System.out.println(count);
 
         // String s = "abc";
@@ -564,8 +616,19 @@ public class newFile {
         // System.out.println(intSubset(arr));
         // System.out.println(intSubsetDublicate(arr));
 
+        // int nums[] = {1,2,3,1};
+        // System.out.println(containsDuplicate(nums));
+        
+        // int height[] = {1,8,6,2,5,4,8,3,7};
+        // System.out.println(maxArea(height));
 
-        
-        
+        // int nums[] = {1,2,3,6};
+        // int nums[] = {3,3,6,4,5};
+        // int nums[] = {1,1,1,3,5};
+        // System.out.println(countQuadruplets(nums));
+
+        // int nums[] = {4,4,2,4,3};
+        int nums[] = {1,1,1,1,1};
+        System.out.println(unequalTriplets(nums));
     }
 }
